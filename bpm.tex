@@ -1,0 +1,208 @@
+\documentclass[a4paper]{article}
+
+\usepackage{INTERSPEECH2016}
+
+\usepackage{graphicx}
+\usepackage{amssymb,amsmath,bm}
+\usepackage{textcomp}
+\usepackage{url}
+
+\def\vec#1{\ensuremath{\bm{{#1}}}}
+\def\mat#1{\vec{#1}}
+
+
+\sloppy % better line breaks
+\ninept
+
+\title{The Berkeley Phonetics Machine}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% If multiple authors, uncomment and edit the lines shown below.       %%
+%% Note that each line must be emphasized {\em } by itself.             %%
+%% (by Stephen Martucci, author of spconf.sty).                         %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\makeatletter
+%\def\name#1{\gdef\@name{#1\\}}
+%\makeatother
+%\name{{\em Keith Johnson, Ronald L. Sprouse}}
+%%%%%%%%%%%%%%%% End of required multiple authors changes %%%%%%%%%%%%%%%%%
+%
+%\makeatletter
+%\def\name#1{\gdef\@name{#1\\}}
+%\makeatother \name{{\em Keith Johnson$^1$, Ronald L. Sprouse$^2$}}
+%
+%\address{$^1$UC Berkeley \\
+%  $^2$UC Berkeley \\
+%  {\small \tt keithjohnson@berkeley.edu, ronald@berkeley.edu}
+%}
+
+\twoauthors{Ronald L. Sprouse}{Department of Linguistics \\
+  UC Berkeley, USA \\
+  {\small \tt ronald@berkeley.edu} }
+  {Keith Johnson}{Department of Linguistics \\
+  UC Berkeley, USA \\
+  {\small \tt keithjohnson@berkeley.edu} }
+
+\begin{document}
+
+  \maketitle
+  %
+  \begin{abstract}
+  The Berkeley Phonetics Machine is a Linux virtual machine image produced and used by the UC Berkeley Phonology Lab as a platform for phonetic research. It contains a full data analysis stack based on Python and R and also specialized tools for phonetic research. The machine is designed as a flexible and productive platform for established and novel research agendas that can be easily shared and reproduced. We list the software available in the machine, which includes many command-line tools for acoustic analysis and media file manipulation, as well as specialized Python libraries. We also discuss the use of this machine in the Phonology Lab and in phonetics courses. The overall experience with the machine has been positive, as faculty and graduate students are able to share and execute scripts in a common working environment. Undergraduate students have less opportunity to master the virtual machine environment but benefit from simplified instructions and fewer installation and operating problems. The primary difficulty that we have encountered has been with a few underpowered student computers that cannot run the virutual machine or do not run it well.
+    %We describe the Berkeley Phonetics Machine, an Ubuntu Linux virtual machine with data analysis software for phonetic analysis installed. It is a frequently-used 
+  \end{abstract}
+%TODO: index terms
+  \noindent{\bf Index Terms}: phonetics, phonetic research, virtual machine
+
+
+
+
+  \section{Introduction}
+    The Berkeley Phonetics Machine (BPM) is an Ubuntu Linux \cite{Ubuntu} virtual machine image for VirtualBox \cite{virtualbox}, produced and used by the UC Berkeley Phonology Lab (Phonlab) as a platform for phonetic research. It contains a full data analysis stack in the general-purpose scripting and statistical packages Python and R, which it shares with the related Berkeley Common Environment (BCE) used in various instructional and research environments on the UC Berkeley campus. The BPM additions to this stack comprise software packages for phonetic analysis and general manipulation of audio and video media files.
+
+    While the BPM is specifically designed to meet the needs of Phonlab users and to take advantage of the local computing and instructional environment, we believe the tools included in the BPM can meet the needs of speech researchers outside of UC Berkeley, and the machine image is available to the public.
+
+  \section{Design goals}
+
+    The BPM is designed to encourage {\em shareable}, {\em reproducible} research using {\em productive} workflows. We think of the BPM as establishing a common vocabulary that researchers can employ; by focusing on a standard set of analytic tools that can be combined in novel ways, the BPM accommodates a wide variety of research agendas.
+
+    The BPM environment emphasizes scripting for most data analysis tasks. Graphical tools are useful for data exploration, but scripts have several advantages for large scale analyses---by their nature they explicitly record the steps leading to a result; they can automate the analysis of large speech corpora \cite{rlpc}; and they are easily shared with other researchers, who can repeat an experiment or adapt them to new datasets.
+
+    These goals are reflected in the specific choices made in developing the BPM:
+
+      \begin{itemize}
+        \item Python as the default scripting language.
+        \item Whenever possible provide royalty-free software that is not encumbered by patents or non-free license restrictions.
+        \item Emphasis on command-line tools that can be controlled in Python scripts.
+        \item Preference for small utilities that do one task well.
+        \item Compatibility with BCE to take advantage of research and instructional opportunities on the UC Berkeley campus not specifically related to speech research.
+
+      \end{itemize}
+
+    The idea behind the BPM originated during an undergraduate course in phonetics in spring 2014. At that time it was an independent effort, and shortly after that course we decided to coordinate our efforts with BCE, which was a related effort starting up more-or-less contemporaneously. Since the first release of the BPM in spring 2015 it has been used in two more phonetics courses, and it is a standard operating environment of almost all Phonlab researchers.
+  
+  \section{Available software}
+  The BPM consists of a data analysis stack provided by the BCE project, plus BPM additions for phonetic analysis.
+
+    \subsection{Berkeley Common Environment}
+
+    The BPM derives from another UC Berkeley project, BCE \cite{Clark14-BCE, BCE}, which has similar design goals for scientific research of all types on the UC Berkeley campus. As such, much of the core data analysis stack is provided by the BCE image and is found in various campus contexts---in workshops at the social sciences Data Lab, in the instructional lab at the Statistical Computing Facility, and at consultations with Berkeley Research Computing. The sharing of core functions with BCE means that students can pick up general purpose computing and data analysis skills from a variety of campus sources and be well-equipped to use them immediately for phonetic research. The core environment is quite literally the same in BCE and BPM, which means that users can focus on research questions rather than the computing environment. Little time is wasted dealing with software installation and configuration issues or with adjusting to user interface differences among computing environments.
+
+    \subsubsection{BCE desktop}
+
+    BCE provides a {\em standard reference} user environment. Its goal is to make it easy to provide step-by-step instructions to another user that are almost guaranteed to work since each user's operating environment is the same. Simple design choices are designed to reduce complexity: a solid color backdrop for the desktop; an icon for the Terminal next to the Applications menu; preconfigured space for tab-stops in the {\tt nano} editor. Other choices are designed to affect performance, e.g. numeric libraries are carefully selected and preconfigured.
+
+    \subsubsection{Python and R}
+    Python and R packages are also selected, compiled, and installed by the BCE maintainers. In some cases the native Ubuntu packages are installed. Some of the BCE user community requires access to cutting edge software, in which case the maintainers install more up-to-date Python and R packages than are found in the official repositories. The BPM does not usually require these advanced capabilities but inherits them anyway; fortunately, we have not found that they introduce any incompatibilities with the software that we provision.
+  
+    \subsection{BPM additions} \label{bpm-additions}
+    In addition to the basic data analysis software provided in BCE, the BPM includes a variety of software tools for phonetic research.
+
+      \subsubsection{OpenSesame}
+      OpenSesame \cite{Matht2011} is a Python-based tool for creating and running psychology experiments. In the Phonlab we use this tool as a platform for running speech perception experiments. The OpenSesame version and installed plugins in the BPM are exactly matched to the Phonlab Linux workstations where researchers run their studies.
+
+      \subsubsection{Penn Phonetics Lab Forced Aligner}
+      The Penn Phonetics Lab Forced Aligner (P2FA) \cite{p2fa, p2fa-url} is a tool for automatic phonetic alignment of words and phones based on a transcript of a recording and using HTK (see section \ref{sec:htk}). P2FA contains acoustic models trained on American English and the {\tt align.py} Python script, which prepares audio files and aligns them with a transcript by applying the acoustic models.
+
+      \subsubsection{Praat and Wavesurfer}
+      Praat \cite{praat} and Wavesurfer \cite{wavesurfer} are GUI tools for phonetic analysis. These are useful for waveform and spectrogram viewing, and for creating annotations for feature extraction and analysis via scripts. These scripts can be written in Praat's built-in scripting language, but in the Phonlab scripts are usually written in Python and employ BPM command-line tools.
+
+      \subsubsection{ESPS}
+      The Entropic Signal Processing System (ESPS) contains a variety of scriptable utilities for acoustic analysis, including {\tt formant}, {\tt melspec}, and {\tt get\_f0}. The ESPS utilities have been unmaintained since Microsoft bought Entropic in 1999, and compiling the code released by Microsoft in 64-bit environments is a problem. The Phonlab maintains a repository \cite{esps} with modifications for 64-bit compilation, and the compiled versions are distributed in the BPM.
+
+      \subsubsection{ffmpeg}
+      The {\tt ffmpeg} utility \cite{ffmpeg} is a tool for working with audio and video materials. In the Phonlab it is used to automate the creation of video stimulus files---adding features such as lead-in still frames or replacing the audio track with processed audio.
+      
+      \subsubsection{ifcformant}
+      The {\tt ifcformant} command provides accurate formant measurements using the Inverse Filter Control algorithm \cite{ifcformant}, as well as F0 and RMS measurements.
+
+      \subsubsection{klsyn}
+      The klsyn package \cite{klsyn-GIT} includes Dennis Klatt's speech synthesizer \cite{Klatt-80}, written in C and also provided with a Python API. The package also includes utilities for synthesizing speech from input parameter files, either as a single output ({\tt klattsyn.py}) or as interpolated continua between two parameter sets ({\tt klp\_continuum.py}). The {\tt klattsyn\_interactive.py} script produces audio and parameter files in an interactive user session.
+
+      \subsubsection{sox}
+      The {\tt sox} utility \cite{sox} is a tool for manipulating audio files that can easily be incorporated into scripts. It can be used to change file formats and sample rate, or it can filter and scale signals. Extracting portions of an audio file and concatenating multiple files are other common operations for this tool in the Phonlab.
+
+      \subsubsection{audiolabel}
+      The audiolabel package is a Python library for reading and processing phonetic label files, including Praat textgrids, and ESPS and Wavesurfer label files \cite{audiolabel-GIT}. This package is frequently used by Phonlab researchers, who create textgrids by hand labeling or forced alignment with P2FA.
+
+      \subsubsection{ultratils}
+      The ultratils package \cite{ultratils} is a Python library under development in the Phonlab for ultrasound image extraction and analysis suitable for use with the Phonlab's Ultrasonix ultrasound system. One of its major utilities is the {\tt psync} script for synchronizing audio files with ultrasound image data.
+
+      \subsubsection{EdgeTrak} \label{sec:edgetrak}
+      EdgeTrak is a Windows application for tracing and analyzing tongue contours in ultrasound images. We provide an install target for this software, but since it is quite specialized and requires Wine it is not installed by default.
+
+      \subsubsection{creak\_detect}
+      The {\tt creak\_detect} tool is a precompiled Matlab function for detecting creaky voice regions from speech signals. It is part of the Voice Analysis Toolkit \cite{voice-analysis-toolkit}, a set of functions for glottal source and voice quality analysis.
+      
+
+  \section{Proprietary software}
+      Some of the software used in the Phonlab requires the user to accept a license agreement and can therefore not be distributed in the BPM public image.  These must be installed by the user, and the {\tt bpm-update} command (see section \ref{bpm-update}) provides installation targets to assist users with these tasks.
+
+      \subsubsection{Hidden Markov Model Toolkit} \label{sec:htk}
+      The Hidden Markov Model Toolkit (HTK) \cite{htk} provides utilities for speech recognition and is required by P2FA. This package is free to use but requires users to agree to a license before downloading. The {\tt htk} target to {\tt bpm-update} prompts for the user's registration details and then downloads, patches, and installs HTK.
+
+      \subsubsection{Matlab runtime}
+      The Phonlab does not actively develop Matlab programs, but there are useful programs and toolboxes that are freely available and might be distributed in the BPM in the future. One such example is the Voice Analysis Toolkit \cite{voice-analysis-toolkit}, and we are experimenting with providing a compiled version of one of its functions, which will require user installation of the Matlab runtime environment. The {\tt creak\_detect} target to {\tt bpm-update} installs the compiled function.
+
+      \subsubsection{Wine}
+      The Wine package provides the capability of running 32-bit Windows applications in a Linux environment and is required for EdgeTrak (see section \ref{sec:edgetrak}). Installation of Wine requires a user license agreement (indirectly, through a dependency), and a {\tt wine} target to {\tt bpm-update} is provided in the BPM.
+
+  \section{Provisioning and maintenance}
+  To produce the BPM image we first import a BCE virtual machine and install the BPM additions described in section \ref{bpm-additions}. The resulting machine image is distributed publicly on the Phonlab web site \cite{bpm-wiki}.
+
+      \subsection{BCE}
+      The BCE maintainers produce a ready-made image for users and also share the Packer \cite{packer} recipe for creating the image as well as the Bash script that does system setup \cite{bce-git}. To create the BPM we start with the machine image.
+
+      \subsection{{\tt bpm-update}}\label{bpm-update}
+      The BPM additions to BCE are installed with the {\tt bpm-update} Bash script \cite{bpm-update-git}. This script contains installation targets that install one or more phonetic software packages. The {\tt bpm-public} target is a master target and installs many of the other targets; the resulting machine image is exported and distributed to the public. {\tt bpm-update} is available for users to install additional software as needed, and it is the primary way to distribute bug fixes to users. The {\tt bpm-update} target updates {\tt bpm-update} itself, which allows us to add new targets for software fixes and distribute them to users rapidly.
+
+
+  \section{Discussion}
+  The most common difficulty we have encountered is the initial installation of the virtual machine. The VirtualBox software itself installs easily, but importing and running the virtual machine can be a challenge. Users of Mac OS X systems have the least difficulty because virtualization hardware support is present and available on these systems. Windows systems are more diverse and virtualization support varies by manufacturer. Most Windows machines have hardware support for virtualization, but support for virtualization is not enabled by default on many of them. Users of these systems must enter the computer's BIOS setup to enable virtualization, and this is an unfamiliar task for most users. We usually dedicate an hour of class time at the beginning of the semester to assist users in installing and testing for virtual machine support.
+
+  Our experience with the BPM is that it has been of most use for Phonlab faculty and graduate students. Most of our users do not have a programming background and are not already familiar with Linux when they arrive in the Phonlab. As a result, there is a lot for a new user of the BPM to learn---how to navigate the Bash command shell, how to write Python scripts, and how to use the phonetic tools themselves. Phonlab graduate students are long-term users of the BPM and therefore have time to learn these skills. In addition to the experimental phonetics course, graduate students use the machine for their basic research, and the availability of software workshops that use BCE also provides opportunities for mastery of the BPM environment.
+
+  Undergraduates are exposed to the BPM primarily in one course, and they do not master all of the elements of the BPM. The long-term benefit to these users is therefore smaller, but they benefit nevertheless. The challenge of gaining these new skills is large regardless of the platform on which they learn, and the fact that all of the students use the same platform simplifies the instructional process. Students can be provided scripts for performing a phonetic analysis and an explicit set of steps for executing them. Before the use of the BPM these steps had to be given separately for the different operating environments found on the students' various computers, and much class time was wasted explaining the quirks of Windows vs. OS X vs. Linux environments. Additional time was wasted handling installation and execution issues on multiple versions of each of these environments.
+
+  One benefit of the BPM has been the ability to share fixes with users quickly and easily. For example, we have encountered multiple bugs in the P2FA {\tt align.py} script, which we have fixed and made available to BPM users with a {\tt bpm-update} target. The commands for applying the updates are easily shared with users since the machine environment is consistent.
+
+  Currently the BPM runs on ordinary host computers, but in the future we expect it could be available via cloud services and in high performance cluster environments. The BCE maintainers already produce images for cloud services like Amazon's EC2 and the UC Berkeley campus cluster, and these images are as consistent as possible with the images produced for ordinary hosts. We believe that the BPM additions will install easily on these images, which opens up the possibility of performing phonetic analysis on very large speech corpora. The ability of the BPM environment to scale in this way could be a benefit to users in the future. Development could proceed on a small system with a subset of data and then run on larger systems only when needed. This strategy helps keep costs down since there is usually an expense related to large systems, and the consistency of the environment means that retooling existing workflows is not necessary when a project scales up in size.
+
+    \subsection{Issues with the BPM}
+    While our experience with the BPM has been largely positive, the use of virtual machines has challenges.
+
+  The first difficulty has been that some user machines are incapable of running virtual machines. Out of approximately 30 students who have enrolled in experimental phonetics in 2015 and 2016, one student's CPU lacked the hardware virtualization feature required to run the BPM. Another student's computer provided virtualization support but did not have sufficient RAM to run the guest operating system. Several other students were able to run the BPM but had underpowered hardware, and performance suffered; some users can boot the BPM in less than 15 seconds while others require two minutes or more.
+
+  A second but related problem has been with student computers that lack sufficient disk space to hold one or more machine instances. We recommend 14GB minimum for a single machine. This problem has caused a delay for some users, but in most cases the students in this situation have been able to clear sufficient space to complete the install.
+
+    Computer performance continues to increase, and it is possible that issues with slow-running and non-functional virtual machines will decrease over time as students come equipped with more powerful computers. Other computing innovations could disrupt this trend, however. As consumers move toward cloud- and app-based services they may migrate toward lower-powered systems (e.g. Chromebooks) or systems for which the keyboard-and-mouse desktop interface employed in the BPM is an uneasy match (e.g. tablets and mobile devices with touch-based interfaces). We will closely monitor the evolution of these trends in future years.
+
+  \section{Conclusion}
+  We have described the BPM, a virtual machine image with tools for phonetic research, and have shared our experience with using the machine in the Phonlab and related phonetics courses.
+
+  \newpage
+  \eightpt
+  \bibliographystyle{IEEEtran}
+
+  \bibliography{mybib}
+
+%  \begin{thebibliography}{9}
+%    \bibitem[1]{Davis80-COP}
+%      S.\ B.\ Davis and P.\ Mermelstein,
+%      ``Comparison of parametric representation for monosyllabic word recognition in continuously spoken sentences,''
+%      \textit{IEEE Transactions on Acoustics, Speech and Signal Processing}, vol.~28, no.~4, pp.~357--366, 1980.
+%    \bibitem[2]{Rabiner89-ATO}
+%      L.\ R.\ Rabiner,
+%      ``A tutorial on hidden Markov models and selected applications in speech recognition,''
+%      \textit{Proceedings of the IEEE}, vol.~77, no.~2, pp.~257-286, 1989.
+%    \bibitem[3]{Hastie09-TEO}
+%      T.\ Hastie, R.\ Tibshirani, and J.\ Friedman,
+%      \textit{The Elements of Statistical Learning -- Data Mining, Inference, and Prediction}.
+%      New York: Springer, 2009.
+%    \bibitem[4]{YourName16-XXX}
+%      F.\ Lastname1, F.\ Lastname2, and F.\ Lastname3,
+%      ``Title of your INTERSPEECH 2016 publication,''
+%      in \textit{Interspeech 2016 -- 16\textsuperscript{th} Annual Conference of the International Speech Communication Association, September 8–12, San Francisco, California, USA, Proceedings, Proceedings}, 2016, pp.~100--104.
+%  \end{thebibliography}
+
+\end{document}
