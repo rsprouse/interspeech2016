@@ -154,7 +154,7 @@
       The BCE maintainers produce a ready-made image for users and also share the Packer \cite{packer} recipe for creating the image as well as the Bash script that does system setup \cite{bce-git}. To create the BPM we start with the machine image.
 
       \subsection{{\tt bpm-update}}\label{bpm-update}
-      The BPM additions to BCE are installed with the {\tt bpm-update} Bash script \cite{bpm-update-git}. This script contains installation targets that install one or more phonetic software packages. The {\tt bpm-public} target is a master target and installs many of the other targets; the resulting machine image is exported and distributed to the public. {\tt bpm-update} is available for users to install additional software as needed, and it is the primary way to distribute bug fixes to users. The {\tt bpm-update} target updates {\tt bpm-update} itself, which allows us to add new targets for software fixes and distribute them to users rapidly.
+      The BPM additions to BCE are installed with the {\tt bpm-update} Bash script \cite{bpm-update-git}. This script contains installation targets that install one or more phonetic software packages. The {\tt bpm-public} target is a master target and installs many of the other targets; the resulting machine image is exported and publicly distributed. {\tt bpm-update} is available for users to install additional software as needed, and it is the primary way to distribute bug fixes to users. The {\tt bpm-update} target updates {\tt bpm-update} itself, which allows us to add new targets for software fixes and distribute them to users rapidly.
 
 
   \section{Discussion}
